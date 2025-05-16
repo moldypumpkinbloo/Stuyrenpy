@@ -42,59 +42,110 @@
 
   <main class="releases-container">
     <h1 class="animated-underline">Game Releases</h1>
-
-    <section class="year-section">
-      <h2 class="year-title">2025</h2>
-
-
-
-
-      
-      <h2 class="year-title">2024</h2>
-      
-      <div class="release-grid">
-        <article class="release-card">
-          <div class="release-content">
-            <div class="game-thumbnail">
-              <a href="https://cinderebee.itch.io/tough-nut-to-crack" target="_blank">
-                <img src="images/tough-nut-cover.png" alt="Tough Nut to Crack game cover" class="game-cover">
-              </a>
-            </div>
-            <h3>Tough Nut to Crack</h3>
-            <div class="release-info">
-              <p class="release-date">August 2024</p>
-              <p class="release-status">Released</p>
-            </div>
-            <p class="release-description">
-              The conductor, that is, you, boards the train, ready for another uneventful ride to God Knows Where. 
-              The passengers are colorful: A lovely lady named Margaret offers you cookies, and you walk in on two 
-              people too busy kissing each other to hand you their tickets. But the thing is, this ride isn't 
-              uneventful, and you have been ready for something else since the beginning...
-            </p>
-            <div class="game-features">
-              <ul>
-                <li>15k+ words</li>
-                <li>2 different endings</li>
-                <li>1 head-over-heels pair of lovers</li>
-                <li>1 whiny kid</li>
-                <li>1 plot twist you may have seen coming</li>
-              </ul>
-            </div>
-            <div class="release-tags">
-              <span class="tag">Cute</span>
-              <span class="tag">Murder-Mystery</span>
-              <span class="tag">Story Rich</span>
-              <span class="tag">Multiple Endings</span>
-            </div>
-            <div class="game-links">
-              <a href="https://cinderebee.itch.io/tough-nut-to-crack" target="_blank" class="play-button">Play Now</a>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
+    <div id="releases-by-year">
+      <!-- DONT PUT RELEASES HERE, THEY WILL BE INSERTED VIA RELEASES-DATA.JS-->
+      <!-- SO YOU DONT HAVE TO MANUALLY UPDATE THIS PAGE (as well as js)-->
+    </div>
   </main>
 
   <script src="script.js"></script>
+  <script src="releases-data.js"></script>
+  <script>
+
+    function formatReleaseDate(dateStr) {
+      const [year, month] = dateStr.split('-');
+      const date = new Date(year, month - 1);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long'
+      });
+    }
+
+
+    function groupReleasesByYear(releases) {
+      const grouped = {};
+      releases.forEach(release => {
+        if (!grouped[release.year]) {
+          grouped[release.year] = [];
+        }
+        grouped[release.year].push(release);
+      });
+      return grouped;
+    }
+
+    function renderReleases() {
+      const container = document.getElementById('releases-by-year');
+      const groupedReleases = groupReleasesByYear(RELEASES);
+      
+      // Get the most recent year from releases
+      const years = Object.keys(groupedReleases).map(Number);
+      const mostRecentYear = Math.max(...years);
+      const nextYear = mostRecentYear + 1;
+      
+      years.push(nextYear);
+      
+      // Sort years descending order
+      const sortedYears = years.sort((a, b) => b - a);
+      
+      const releasesHTML = sortedYears.map(year => {
+        // If this is the next year, show some text, change if you want btw this auto updates from latest game release
+        if (year === nextYear) {
+          return `
+            <section class="year-section">
+              <h2 class="year-title">${year}</h2>
+              <div class="release-grid">
+                <article class="release-card working-on-it">
+                  <div class="release-content">
+                    <h3>In progress...</h3>  
+                  </div>
+                </article>
+              </div>
+            </section>
+          `;
+        }
+        
+        // Otherwise show reg releases for said year
+        return `
+          <section class="year-section">
+            <h2 class="year-title">${year}</h2>
+            <div class="release-grid">
+              ${groupedReleases[year].map(release => `
+                <article class="release-card" id="${release.id}">
+                  <div class="release-content">
+                    <div class="game-thumbnail">
+                      <a href="${release.playLink}" target="_blank">
+                        <img src="${release.coverImage}" alt="${release.title} game cover" class="game-cover">
+                      </a>
+                    </div>
+                    <h3>${release.title}</h3>
+                    <div class="release-info">
+                      <p class="release-date">${formatReleaseDate(release.releaseDate)}</p>
+                      <p class="release-status">${release.status}</p>
+                    </div>
+                    <p class="release-description">${release.description}</p>
+                    <div class="game-features">
+                      <ul>
+                        ${release.features.map(feature => `<li>${feature}</li>`).join('')}
+                      </ul>
+                    </div>
+                    <div class="release-tags">
+                      ${release.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="game-links">
+                      <a href="${release.playLink}" target="_blank" class="play-button">Play Now</a>
+                    </div>
+                  </div>
+                </article>
+              `).join('')}
+            </div>
+          </section>
+        `;
+      }).join('');
+
+      container.innerHTML = releasesHTML;
+    }
+
+    document.addEventListener('DOMContentLoaded', renderReleases);
+  </script>
 </body>
 </html>

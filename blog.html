@@ -43,16 +43,69 @@
   <main class="content-container">
     <h1 class="animated-underline">Blog</h1>
     
-
-
-
-
-
-
-
-    
+    <div class="blog-posts">
+      <!--  DONT PUT BLOG POSTS HERE, THEY WILL BE INSERTED VIA BLOG-POSTS.JS-->
+      <!-- SO YOU DONT HAVE TO MANUALLY UPDATE THIS PAGE (as well as js)-->
+    </div>
   </main>
 
   <script src="script.js"></script>
+  <script src="blog-posts.js"></script>
+  <script>
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    }
+
+    function renderBlogPosts() {
+      const blogPostsContainer = document.querySelector('.blog-posts');
+      if (!blogPostsContainer) return;
+
+      // Sort posts by date (most recent first)
+      const sortedPosts = [...BLOG_POSTS].sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+      });
+
+      const postsHTML = sortedPosts.map(post => `
+        <article class="blog-post" id="${post.id}">
+          <div class="blog-thumbnail">
+            <div class="blog-cover-wrapper">
+              <img src="${post.coverImage}" alt="${post.title} cover" class="blog-cover">
+            </div>
+          </div>
+          <div class="blog-content">
+            <div class="blog-header">
+              <h2>${post.title}</h2>
+              <div class="blog-meta">
+                <span class="blog-date">${formatDate(post.date)}</span>
+                <span class="blog-author">by ${post.author}</span>
+              </div>
+            </div>
+            <div class="blog-tags">
+              ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+            <div class="blog-text">
+              ${post.content}
+            </div>
+          </div>
+        </article>
+      `).join('');
+
+      blogPostsContainer.innerHTML = postsHTML;
+    }
+
+    // Wait for both DOM and blog-posts.js to load
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof BLOG_POSTS !== 'undefined') {
+        renderBlogPosts();
+      } else {
+        console.error('Blog posts data not loaded');
+      }
+    });
+  </script>
 </body>
 </html>

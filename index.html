@@ -6,8 +6,8 @@
   <title>stuyrenpy</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar">
@@ -40,11 +40,45 @@
   </nav>
   <div class="overlay"></div>
 
-  <main>
-    <h1 style="font-size: 60px; letter-spacing: 3px;">Stuyvesant</h1>
-    <h1 class="animated-underline" style="font-size: 55px; letter-spacing: 3px;">Renpy Club</h1>
-  </main>
+  <main class="home-container">
+    <div class="hero-section">
+      <div class="hero-background"></div>
+      <div class="hero-content">
+        <h1 class="hero-title first">Stuyvesant</h1>
+        <h1 class="hero-title second animated-underline">Renpy Club</h1>
+        <p class="hero-subtitle" style="color: #4b7515;">A club for Stuyvesant students to collaborate and create</p>
+        <div class="hero-buttons">
+          <a href="releases.html" class="hero-button">Our Games</a>
+          <a href="resources.html" class="hero-button outline">Renpy Resources</a>
+          <a href="https://epsilon.stuysu.org/stuyrenpy" class="hero-button outline">Join now</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="latest-release-preview">
+      <h2 class="section-title">Latest Release</h2>
+      <div class="preview-window">
+        <!-- To update newest game, add all releases to releases-data.js  NOT RELEASES.HTMLLLLLL-->
+      </div>
+    </section>
+
+    <section class="blog-preview">
+      <h2 class="section-title">Latest Blog Post</h2>
+      <div class="blog-preview-window">
+        <!-- To update blog posts, add all posts at blog-posts.js NOT BLOG.HTML -->
+      </div>
+    </section>
+  </main> 
+
 
   <script src="script.js"></script>
+  
+
+  <script src="releases-data.js"></script>
+  <script src="latest-release.js"></script>
+  
+
+  <script src="blog-posts.js"></script>
+  <script src="latest-blog.js"></script>
 </body>
 </html>

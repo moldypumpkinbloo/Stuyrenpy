@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Prevent body scroll when menu is open
   navMenu.addEventListener('touchmove', (e) => {
     if (navMenu.classList.contains('active')) {
       e.preventDefault();
