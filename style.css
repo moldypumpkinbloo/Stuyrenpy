@@ -346,7 +346,7 @@ main {
   z-index: -1;
 }
 
-/* Releases Page Styles */
+/* Releases page styles */
 .releases-container {
   max-width: 1200px;
   margin: 80px auto 2rem;
@@ -572,4 +572,14 @@ main {
     width: 100%;
     padding: 0.6rem 1.5rem;
   }
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 80px auto 2rem;
+  padding: 0 1rem;
+}
+
+.content-container .animated-underline {
+  margin-bottom: 3rem;
 }
